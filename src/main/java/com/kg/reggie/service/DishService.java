@@ -1,14 +1,14 @@
 package com.kg.reggie.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kg.reggie.entity.Employee;
+import com.kg.reggie.entity.Dish;
 
 /**
- * @ClassName EmployeeService
+ * @ClassName DishService
  * @Author kg
  * @Description TODO
- * @Date 2022/8/2 9:37
+ * @Date 2022/8/5 11:17
  * @Version 1.0
  */
-public interface EmployeeService extends IService<Employee> {
+public interface DishService extends IService<Dish> {
 }

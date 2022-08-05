@@ -1,6 +1,7 @@
 package com.kg.reggie.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.kg.reggie.common.BaseContext;
 import com.kg.reggie.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,10 @@ public class LoginCheckFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        // 调用ThreadLocal的set方法来设置当前线程的线程局部变量的值（用户id）
+        ThreadLocal threadLocal = new ThreadLocal();
+        threadLocal.set(request.getSession().getAttribute("employee"));
+
         // 1. 获取本次请求的URL
         String requestURI = request.getRequestURI();// backend/index.html
 
@@ -58,7 +63,10 @@ public class LoginCheckFilter implements Filter {
 
         // 4. 判断登录状态，如果已登录，则直接放行
         if (request.getSession().getAttribute("employee") != null) {
-            log.info("用户已登录，用户id为：{}", request.getSession().getAttribute("employee"));
+            Long empId = (Long) request.getSession().getAttribute("employee");
+            log.info("用户已登录，用户id为：{}", empId);
+            BaseContext.setCurrentId(empId);
+
             filterChain.doFilter(request, response);
             return;
         }
